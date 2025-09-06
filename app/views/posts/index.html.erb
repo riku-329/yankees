@@ -1,0 +1,62 @@
+<h1>New Yankees</h1>
+<h3>一覧ページ</h3>
+<%= link_to "新規投稿へ", new_post_path %>
+<div class="yankees-container">
+ <% @posts.each do |t| %>
+  <div class="yankees">
+    <%= t.name %>
+    <%= t.about %>
+    <%= t.link %>
+    <%= t.user.email %>
+
+    <% if t.youtube_url.present? %>
+      <% max = youtube_thumb_url(t.youtube_url, size: :max) %>
+      <% hq  = youtube_thumb_url(t.youtube_url, size: :hq)  %>
+
+      <%= link_to t.youtube_url, target: "_blank", rel: "noopener" do %>
+        <%= image_tag(max || hq,
+              alt: t.name.presence || "YouTube thumbnail",
+              width: 320, height: 180, loading: "lazy",
+              onerror: "this.onerror=null;this.src='#{hq}';") %>
+      <% end %>
+    <% end %>
+  </div>
+  <% if user_signed_in? %>
+      <% if current_user.id == t.user_id %>
+        <%= link_to "編集する", edit_post_path(t.id) %>
+        <%= link_to "削除する", post_path(t.id), method: :delete %>
+      <% end %>
+      <% if current_user.admin? %>
+        <%= link_to "管理者用編集", edit_post_path(t.id) %>
+        <%= link_to "管理者用削除", post_path(t.id), method: :delete %>
+      <% end %>
+  <% end %>
+  <% end %>
+  
+   <div class="posts-container">
+    <% @posts.each do |t| %>
+      <div class="post">
+        
+        <!--ここから-->
+        <% if t.image.attached? %>
+            <%= image_tag t.image, size: '250x200'%>
+        <% end %>
+
+        <!--ここまで-->
+
+        <%= t.name %>
+        <%= t.created_at %>
+        <%= link_to "詳細へ", post_path(t.id) %>
+        <%= link_to "編集する", edit_post_path(t.id) %>
+        <%= link_to "削除する", post_path(t.id), method: :delete %>
+      </div>
+    <% end %>
+  </div>
+   
+
+
+    
+</div>
+
+
+   

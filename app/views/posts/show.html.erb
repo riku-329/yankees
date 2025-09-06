@@ -1,0 +1,16 @@
+ay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<h1>New Yankees</h1>
+<h3>Tweet詳細</h3>
+<div class="post">
+  <p><%= @post.name %></p>
+  <p><%= @post.created_at %></p>
+</div>
+
+<%= link_to "Tweet一覧に戻る", posts_path %>
+<% @post.each do |t| %>
+    <div class="tweet">
+      省略
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/<%= find_youtube_url(t.youtube_url) %>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      省略
+    </div>
+<% end %>
