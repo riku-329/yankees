@@ -62,7 +62,7 @@ gem'devise'
 gem 'dotenv-rails'
 gem 'ffi'
 
-gem "cloudinary", "~> 2.0"
+gem "cloudinary", "~> 2.4"
 
 # PostgreSQL → 本番用
 group :production do
