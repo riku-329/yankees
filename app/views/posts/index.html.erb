@@ -1,62 +1,128 @@
-<h1>New Yankees</h1>
-<h3>一覧ページ</h3>
-<%= link_to "新規投稿へ", new_post_path %>
-<div class="yankees-container">
- <% @posts.each do |t| %>
-  <div class="yankees">
-    <%= t.name %>
-    <%= t.about %>
-    <%= t.link %>
-    <%= t.user.email %>
-
-    <% if t.youtube_url.present? %>
-      <% max = youtube_thumb_url(t.youtube_url, size: :max) %>
-      <% hq  = youtube_thumb_url(t.youtube_url, size: :hq)  %>
-
-      <%= link_to t.youtube_url, target: "_blank", rel: "noopener" do %>
-        <%= image_tag(max || hq,
-              alt: t.name.presence || "YouTube thumbnail",
-              width: 320, height: 180, loading: "lazy",
-              onerror: "this.onerror=null;this.src='#{hq}';") %>
-      <% end %>
-    <% end %>
-  </div>
-  <% if user_signed_in? %>
-      <% if current_user.id == t.user_id %>
-        <%= link_to "編集する", edit_post_path(t.id) %>
-        <%= link_to "削除する", post_path(t.id), method: :delete %>
-      <% end %>
-      <% if current_user.admin? %>
-        <%= link_to "管理者用編集", edit_post_path(t.id) %>
-        <%= link_to "管理者用削除", post_path(t.id), method: :delete %>
-      <% end %>
-  <% end %>
-  <% end %>
-  
-   <div class="posts-container">
-    <% @posts.each do |t| %>
-      <div class="post">
-        
-        <!--ここから-->
-        <% if t.image.attached? %>
-            <%= image_tag t.image, size: '250x200'%>
-        <% end %>
-
-        <!--ここまで-->
-
-        <%= t.name %>
-        <%= t.created_at %>
-        <%= link_to "詳細へ", post_path(t.id) %>
-        <%= link_to "編集する", edit_post_path(t.id) %>
-        <%= link_to "削除する", post_path(t.id), method: :delete %>
+<div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">Y</div>
+        <div>
+          <h1></h1>
+          <div style="font-size:12px;color:var(--muted)">草野球チーム紹介サイト</div>
+        </div>
       </div>
-    <% end %>
-  </div>
-   
+      <nav id="nav">
+        <%= link_to "ホーム",   root_path,         class: "nav-btn" %>
+        <%= link_to "メンバー", posts_member_path, class: "nav-btn" %>
+        <%= link_to "活動結果", posts_result_path, class: "nav-btn" %>
+        <%= link_to "活動写真", posts_image_path,  class: "nav-btn" %>
+        <%= link_to "動画",     posts_video_path,  class: "nav-btn" %>
+      </nav>
 
+
+
+    </header>
+
+    <main class="main">
+      <section class="content">
+        <!-- Home -->
+        <div id="home" class="card panel">
+          <div class="hero">
+            <div class="hero-info">
+              <h2>ようこそ、New Yankees へ</h2>
+              <p>私たちは三芳野球連盟に所属する大学生〜社会人の草野球チームです。楽しむこと第一、でも勝ちに行く姿勢は忘れません。</p>
+              <a class="cta" href="#">今すぐ試合を見る</a>
+            </div>
+            <div style="width:240px">
+              <div class="card" style="padding:12px;text-align:center">
+                <div style="font-size:13px;color:var(--muted)">次の試合</div>
+                <div style="margin-top:8px;font-weight:800">9月20日 14:00 vs Purple Storm</div>
+                <div style="margin-top:8px;color:var(--muted);font-size:13px">河川敷B球場</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:14px" class="card">
+            <h3 style="margin-bottom:8px">最近のハイライト</h3>
+            <div class="grid-3">
+              <div class="images"><%= image_tag "wind.jpg", size: "200x150" %></div>
+          </div>
+        </div>
+
+        <!-- Members -->
+        <div id="members" class="card panel" style="display:none;margin-top:12px">
+          <h3>メンバー</h3>
+          <div class="members-grid">
+            <div class="member"><div class="avatar">TK</div><div class="meta">田中 健<div class="role">キャプテン / 内野</div></div></div>
+            <div class="member"><div class="avatar">SM</div><div class="meta">佐藤 真<div class="role">外野 / 4番</div></div></div>
+            <div class="member"><div class="avatar">KM</div><div class="meta">木村 海<div class="role">ピッチャー</div></div></div>
+            <div class="member"><div class="avatar">RG</div><div class="meta">鈴木 隆<div class="role">捕手</div></div></div>
+            <div class="member"><div class="avatar">AK</div><div class="meta">青木 光<div class="role">内野</div></div></div>
+            <div class="member"><div class="avatar">YU</div><div class="meta">横山 裕<div class="role">外野</div></div></div>
+          </div>
+        </div>
+
+        <!-- Result -->
+        <div id="result" class="card panel" style="display:none;margin-top:12px">
+          <h3>試合結果</h3>
+          <table>
+            <thead>
+              <tr><th>日付</th><th>対戦</th><th>スコア</th><th>場所</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>2025-09-01</td><td>vs Red Hawks</td><td><span class="win">8 - 3</span></td><td>河川敷A</td></tr>
+              <tr><td>2025-08-24</td><td>vs Blue Tide</td><td><span class="lose">2 - 5</span></td><td>市民球場</td></tr>
+              <tr><td>2025-08-10</td><td>vs Silver Sox</td><td><span class="draw">4 - 4</span></td><td>河川敷B</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Images -->
+        <div id="images" class="card panel" style="display:none;margin-top:12px">
+          <h3>画像投稿ギャラリー</h3>
+          <div class="uploader" id="image-uploader">
+            <p>ここにドラッグ＆ドロップ、またはボタンから選択して投稿</p>
+            <label class="btn" for="imgfile">画像を選ぶ</label>
+            <input id="imgfile" type="file" accept="image/*" multiple />
+          </div>
+          <div style="margin-top:12px" id="image-grid" class="grid-3"></div>
+        </div>
+
+        <!-- Videos -->
+        <div id="videos" class="card panel" style="display:none;margin-top:12px">
+          <h3>動画投稿</h3>
+          <div class="uploader" id="video-uploader">
+            <p>短いクリップをアップ</p>
+            <label class="btn" for="vidfile">動画を選ぶ</label>
+            <input id="vidfile" type="file" accept="video/*" multiple />
+          </div>
+          <div style="margin-top:12px" id="video-grid"></div>
+        </div>
+      </section>
+
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="card">
+          <div class="small">チームステータス</div>
+          <div class="stats">
+            <div class="stat"><div class="num">12</div><div style="font-size:12px;color:var(--muted)">メンバー</div></div>
+            <div class="stat"><div class="num">6-2-1</div><div style="font-size:12px;color:var(--muted)">今季成績</div></div>
+          </div>
+        </div>
+
+        <div style="margin-top:12px" class="card">
+          <h4>チームカラー</h4>
+          <div style="margin-top:10px">
+            <div style="height:36px;border-radius:8px;background:var(--accent-gradient);display:flex;align-items:center;justify-content:center;font-weight:700">New Yankees </div>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <footer>
+      <div class="card" style="display:inline-block;padding:10px 16px">© 2025 New Yankees  —  site</div>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
 
     
 </div>
-
 
    

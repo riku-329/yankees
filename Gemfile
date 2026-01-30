@@ -63,9 +63,11 @@ gem 'dotenv-rails'
 gem 'ffi'
 
 gem "cloudinary", "~> 2.0"
+gem "rack", "~> 2.2"
 
 # PostgreSQL → 本番用
 group :production do
   gem 'pg'
 end
 
+gem 'pg'

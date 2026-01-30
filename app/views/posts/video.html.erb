@@ -1,0 +1,69 @@
+<!-- Videos -->
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div class="logo">Y</div>
+      <div>
+        <h1>New Yankees </h1>
+        <div style="font-size:12px;color:var(--muted)">草野球チーム紹介サイト</div>
+      </div>
+    </div>
+    <nav id="nav">
+      <a class="nav-btn" href="home.html">ホーム</a>
+      <a class="nav-btn " href="members.html">メンバー</a>
+      <a class="nav-btn" href="result.html">試合結果</a>
+      <a class="nav-btn" href="image.html">画像投稿</a>
+      <a class="nav-btn active" href="video.html">動画投稿</a>
+    </nav>
+  </header>
+          <div id="video" class="card panel is-active" style="margin-top:12px">
+          <h3>動画投稿</h3>
+          
+          <div class="uploader" id="video-uploader">
+            <p>短いクリップをアップ</p>
+            <%= link_to "新規投稿へ", new_post_path %>
+            <div class="yankees-container">
+      <% @posts.each do |t| %>
+        <div class="yankees">
+          <%= t.name %>
+          <%= t.about %>
+          <%= t.link %>
+          <%= t.user.email %>
+
+          <% if t.youtube_url.present? %>
+            <% max = youtube_thumb_url(t.youtube_url, size: :max) %>
+            <% hq  = youtube_thumb_url(t.youtube_url, size: :hq)  %>
+
+            <%= link_to t.youtube_url, target: "_blank", rel: "noopener" do %>
+              <%= image_tag(
+                    max || hq,
+                    alt:   t.name.presence || "YouTube thumbnail",
+                    width: 320,
+                    height: 180,
+                    loading: "lazy",
+                    onerror: "this.onerror=null;this.src='#{hq}';"
+                  ) %>
+            <% end %>
+          <% end %>
+        </div>
+
+        <% if user_signed_in? %>
+          <% if current_user.id == t.user_id %>
+            <%= link_to "編集する", edit_post_path(t.id) %>
+            <%= link_to "削除する", post_path(t.id), method: :delete %>
+          <% end %>
+
+          <% if current_user.admin? %>
+            <%= link_to "管理者用編集", edit_post_path(t.id) %>
+            <%= link_to "管理者用削除", post_path(t.id), method: :delete %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+            <label class="btn" for="vidfile">動画を選ぶ</label>
+            <input id="vidfile" type="file" accept="video/*" multiple />
+          </div>
+          <div style="margin-top:12px" id="video-grid"></div>
+        </div>
+      </section>
+      

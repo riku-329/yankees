@@ -1,14 +1,14 @@
 /* ========== Theme tokens ========== */
 :root {
   --font-size: 16px;
-  --background: #0f0c2e;
+  --background: #333;
   --foreground: oklch(93.481% 0.01109 274.86);
-  --muted: oklch(76.397% 0.05012 272.296);
-  --card: #6546d4;
+  --muted: oklch(0.55 0.03 270);
+  --card: #563737;
   --border: oklch(0.87 0.02 270);
   --primary: oklch(0.45 0.20 270);
   --primary-fore: oklch(0.98 0.01 270);
-  --accent: oklch(72.323% 0.0921 270.044);
+  --accent: oklch(45.262% 0.18771 265.144);
   --accent-fore: oklch(0.25 0.05 270);
   --destructive: #D4183D;
   --radius: 10px;
@@ -52,7 +52,7 @@ header .brand { display: flex; align-items: center; gap: 12px; }
 /* ========== Cards / sections ========== */
 .card {
   background: var(--card); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 16px; box-shadow: 0 1px 3px rgba(226, 230, 234, 0.897);
+  border-radius: var(--radius); padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,.04);
 }
 .panel + .panel { margin-top: 12px; }
 
@@ -70,9 +70,7 @@ header .brand { display: flex; align-items: center; gap: 12px; }
 .cta:hover { filter: brightness(0.95); }
 
 /* grids */
-.grid-3 { display: flex;
-  justify-content: center; /* 横中央 */
-  align-items: center;      /* 縦中央 */ }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 @media (max-width: 700px) { .grid-3 { grid-template-columns: 1fr 1fr; } }
 .thumb img, .post img { width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border); display:block; }
 
@@ -100,4 +98,3 @@ th, td { border:1px solid var(--border); padding:8px; text-align: center; }
 .post { background: var(--card); border:1px solid var(--border); border-radius: var(--radius); padding:12px; }
 .post a { text-decoration: underline; color: var(--primary); font-weight: 600; }
 .post a:hover { filter: brightness(0.9); }
-

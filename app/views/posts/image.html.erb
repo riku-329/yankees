@@ -1,0 +1,63 @@
+<!-- Images -->
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div class="logo">Y</div>
+      <div>
+        <h1>New Yankees </h1>
+        <div style="font-size:12px;color:var(--muted)">草野球チーム紹介サイト</div>
+      </div>
+    </div>
+    <nav id="nav">
+      <a class="nav-btn" href="home.html">ホーム</a>
+      <a class="nav-btn " href="members.html">メンバー</a>
+      <a class="nav-btn" href="result.html">試合結果</a>
+      <a class="nav-btn active" href="image.html">画像投稿</a>
+      <a class="nav-btn" href="video.html">動画投稿</a>
+    </nav>
+  </header>
+<div id="images" class="card panel is-active" style="margin-top:12px">
+  <h3>画像投稿ギャラリー</h3>
+
+  <div class="uploader" id="image-uploader">
+    <p>ここにドラッグ＆ドロップ、またはボタンから選択して投稿</p>
+
+    <h3>投稿一覧</h3>
+    <%= link_to "新規投稿へ", new_post_path %>
+
+    
+    <div class="posts-container">
+      <% @posts.each do |t| %>
+        <div class="post">
+          <!-- ここから -->
+          <% if t.image.attached? %>
+            <%= image_tag t.image, size: "250x200" %>
+          <% end %>
+          <!-- ここまで -->
+
+          <%= t.name %>
+          <%= t.created_at %>
+          <%= link_to "詳細へ", post_path(t.id) %>
+          <%= link_to "編集する", edit_post_path(t.id) %>
+          <%= link_to "削除する", post_path(t.id), method: :delete %>
+        </div>
+      <% end %>
+    </div>
+
+    <label class="btn" for="imgfile">画像を選ぶ</label>
+    <input id="imgfile" type="file" accept="image/*" multiple />
+  </div>
+
+  <div id="image-grid" class="grid-3" style="margin-top:12px"></div>
+</div>
+
+
+
+
+
+
+
+
+
+
+

@@ -1,18 +1,23 @@
+# config/routes.rb
 Rails.application.routes.draw do
   devise_for :users
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  # ヘルスチェック / PWA
   get "up" => "rails/health#show", as: :rails_health_check
-
-  # Render dynamic PWA files from app/views/pwa/*
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
-  get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  resources :posts
-  root 'posts#index'
-  get 'tweets/:id' => 'tweets#show',as: 'tweet'
-  get 'users' =>'users#index'
-  # Defines the root path route ("/")
-  # root "posts#index"
+  get "manifest"       => "rails/pwa#manifest",       as: :pwa_manifest
+
+  # ① 固定ページ（posts配下の疑似ページ）を先に定義
+  root "posts#index"
+  get "posts/member", to: "posts#member", as: :posts_member
+  get "posts/result", to: "posts#result", as: :posts_result
+  get "posts/image",  to: "posts#image",  as: :posts_image
+  get "posts/video",  to: "posts#video",  as: :posts_video
+
+  # ② 通常のCRUD。:id を数字だけに制限して衝突回避
+  resources :posts, constraints: { id: /\d+/ }
+
+  # そのほか既存ルート
+  get "tweets/:id" => "tweets#show", as: :tweet
+  get "users"      => "users#index"
 end

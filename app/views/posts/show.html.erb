@@ -8,7 +8,7 @@ ay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullsc
 
 <%= link_to "Tweet一覧に戻る", posts_path %>
 <% @post.each do |t| %>
-    <div class="tweet">
+    <div class="post">
       省略
       <iframe width="560" height="315" src="https://www.youtube.com/embed/<%= find_youtube_url(t.youtube_url) %>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       省略
